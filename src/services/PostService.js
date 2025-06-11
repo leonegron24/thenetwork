@@ -2,7 +2,13 @@ import { AppState } from "@/AppState.js"
 import { api } from "./AxiosService.js"
 import { Post } from "@/models/Post.js"
 
-class PostService{ 
+class PostService{
+
+async getUserPostsById(creatorId) {
+ const response = await api.get(`api/profiles/${creatorId}/posts`)
+ console.log('userPosts: ', response.data)
+ AppState.userPosts = response.data.posts.map(post => new Post(post))
+} 
 
 async getAllPosts() {
     const response = await api.get('api/posts')

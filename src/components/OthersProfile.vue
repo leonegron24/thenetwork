@@ -1,9 +1,10 @@
 <script setup>
 import { AppState } from '@/AppState.js';
 import { computed } from 'vue';
+import PostCard from './PostCard.vue';
 
 const account = computed(()=>AppState.profile)
-
+const posts = computed(()=> AppState.userPosts)
 </script>
 
 
@@ -35,6 +36,14 @@ const account = computed(()=>AppState.profile)
     </div>
 
   </section>
+  <section class="container-fluid pt-4 bg-white">
+    <div class="row p-4">
+      <div v-for="post in posts" :key="post.id" class="col-6 col-md-6 mb-3">
+        <PostCard :post="post" />
+      </div>
+    </div>
+  </section>
+
 </template>
 
 

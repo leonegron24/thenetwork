@@ -6,7 +6,7 @@ import { api } from './AxiosService.js'
 class AccountService {
 
 async fetchPostProfile(creatorId) {
-  const response = await api.get(`/account/creatorId`)
+  const response = await api.get(`api/profiles/${creatorId}`)
   console.log('profile info: ', response.data)
   AppState.profile = new Account(response.data)
 }
