@@ -2,9 +2,13 @@
 import { computed } from 'vue';
 import { AppState } from '../AppState.js';
 import AccountForm from '@/components/AccountForm.vue';
+import { AuthService } from '@/services/AuthService.js';
 
 
 const account = computed(() => AppState.account)
+function logout() {
+  AuthService.logout()
+}
 
 
 </script>
@@ -24,6 +28,11 @@ const account = computed(() => AppState.account)
 
     <AccountForm />
   </div>
+  <h3 class=" pt-4 text-center text-danger selectable" @click="logout">
+  <i class="mdi mdi-logout"></i>
+  logout
+  </h3>
+  
 
 </template>
 

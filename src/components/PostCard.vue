@@ -1,22 +1,30 @@
 <script setup>
+import { AppState } from '@/AppState.js';
 import { Post } from '@/models/Post.js';
+import { postService } from '@/services/PostService.js';
+import { Pop } from '@/utils/Pop.js';
+import { computed } from 'vue';
 import { ref } from 'vue';
 
 const props = defineProps({post: Post})
 const likes = ref((props.post.likes).length)
+const profile = computed(()=> AppState.profile)
+
+
 </script>
 
 
 <template>
 <div class="card shadow">
-
     <div class="p-4">
         <div class="d-flex justify-content-between mb-2">
-            <div class="d-flex">
-                <img class="rounded profile-picture" :src="post.creator.picture" alt="">
-                <div class="mx-2">
-                    {{ post.creator.name}}
-                </div> 
+            <div class="d-flex align-items-center">
+                    <RouterLink :to="{ name: 'Profile', params:{creatorId: post.creator.id} }">
+                        <img class="profile-picture" :src="post.creator.picture" alt="">
+                    </RouterLink>
+                    <div class="mx-2">
+                        {{ post.creator.name}}
+                    </div> 
             </div>
 
             <!-- Post Menu Button -->
@@ -42,7 +50,9 @@ const likes = ref((props.post.likes).length)
     min-height: 5em;
 }
 .profile-picture{
-    max-height: 30px;
+    border-radius: 50%;
+    height: 50px;
+    width: 50px;
     object-fit: cover;
     object-position: center;
 }

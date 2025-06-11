@@ -30,6 +30,7 @@ async function getAllPosts(){
 <template>
   <main class="d-flex flex-row justify-content-between w-100">
     <!-- Profile Section -->
+     
      <Profile />
 
     <!-- Posts Section -->
