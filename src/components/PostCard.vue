@@ -16,6 +16,7 @@ const profile = computed(()=> AppState.profile)
 
 <template>
 <div class="card shadow">
+    <div class=" p-1 fs text-secondary">Created: {{ post.createdAtFormatted }}</div>
     <div class="p-4">
         <div class="d-flex justify-content-between mb-2">
             <div class="d-flex align-items-center">
@@ -61,5 +62,9 @@ const profile = computed(()=> AppState.profile)
     width: 100%;
     object-fit: cover;
     object-position: center;
+}
+
+.fs{
+    font-size: x-small;
 }
 </style>

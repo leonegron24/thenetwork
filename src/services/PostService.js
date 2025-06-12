@@ -1,8 +1,16 @@
 import { AppState } from "@/AppState.js"
 import { api } from "./AxiosService.js"
 import { Post } from "@/models/Post.js"
+import { Pop } from "@/utils/Pop.js"
 
 class PostService{
+
+async addPost(postData) {
+    const response = await api.post('api/posts', postData)
+    console.log('new Post: ',response.data)
+    AppState.posts.unshift(new Post(response.data))
+    Pop.success('Post Added!')
+}
 
 async getUserPostsById(creatorId) {
  const response = await api.get(`api/profiles/${creatorId}/posts`)

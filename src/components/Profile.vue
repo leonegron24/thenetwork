@@ -1,6 +1,7 @@
 <script setup>
 import { AppState } from '@/AppState.js';
 import { AuthService } from '@/services/AuthService.js';
+import { ref } from 'vue';
 import { computed } from 'vue';
 
 const account = computed(()=>AppState.account)
@@ -38,6 +39,12 @@ function logout() {
        <i class="fs-1 mdi mdi-note-outline"></i>
        <span class="fs-5">Resume</span>
       </a>
+      <div v-if="account.bio" :href="account.bio" target="_blank" class="displayBio d-flex align-items-center gap-2 text-decoration-none">
+        <p>{{ account.bio }}</p>
+      </div>
+      <div v-if="account.class" :href="account.class" target="_blank" class="d-flex align-items-center gap-2 text-decoration-none">
+        <p>{{ account.class }}</p>
+      </div>   
 
     </div>
 
@@ -72,4 +79,5 @@ function logout() {
 .profile-height{
   height: 50em;
 }
+
 </style>

@@ -46,8 +46,8 @@ async function getAllPosts(){
 
   <!-- Page -->
     <div class="d-flex justify-content-center">
-      <div class="btn selectable mx-5">...Newer </div>
-      <div class="btn selectable mx-5">Older...</div>
+      <div class="btn selectable mx-5">...Previous </div>
+      <div class="btn selectable mx-5">Next...</div>
     </div>
 </template>
 
@@ -72,5 +72,7 @@ main {
   width: 25%;
   background-color: #f1f3f5;
 }
+
+
 </style>
 

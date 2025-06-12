@@ -27,6 +27,9 @@ watch(theme, () => {
         <img class="navbar-brand  m-0" alt="logo" src="https://media.istockphoto.com/id/1996963853/photo/isolated-shot-of-three-dimensional-blank-jigsaw-puzzle-alphabet-letter-n-on-white-background.webp?a=1&b=1&s=612x612&w=0&k=20&c=0Xv0JIDCtBxndmalkAKHQ3Dhhx-cTLjkx5LbMYvE6Uw=" height="45" />
         <b class="fs-5">etwork</b>
       </RouterLink>
+      <RouterLink :to="{name: 'CreatePostPage'}">
+        <div class="text-success mx-4">Create Post</div>
+      </RouterLink>
       <!-- collapse button -->
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-links"
       aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">

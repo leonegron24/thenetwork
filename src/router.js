@@ -26,6 +26,11 @@ const routes = [
     path: '/profile/:creatorId',
     name: 'Profile',
     component: loadPage('ProfilePage')
+  },
+  {
+    path: '/CreatePost',
+    name: 'CreatePostPage',
+    component: loadPage('CreatePost')
   }
 ]
 

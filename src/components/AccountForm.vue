@@ -3,6 +3,22 @@ import { AppState } from '@/AppState.js';
 import { accountService } from '@/services/AccountService.js';
 import { Pop } from '@/utils/Pop.js';
 import { computed, ref, watch } from 'vue';
+import { onMounted } from 'vue'
+
+onMounted(() => {
+  resize()
+})
+
+const text = ref('')
+const autoResizeTextarea = ref(null)
+
+function resize() {
+  const el = autoResizeTextarea.value
+  if (el) {
+    el.style.height = 'auto'        // Reset height
+    el.style.height = el.scrollHeight + 'px'  // Set new height
+  }
+}
 
 const accountInfo = computed(() => AppState.account);
 
@@ -12,7 +28,10 @@ const accountData = ref({
   picture: '',
   linkedin: '',
   resume: '',
-  github: ''
+  github: '',
+  bio: '',
+  class: '',
+  coverImg: ''
 });
 
 watch(accountInfo, (newVal) => {
@@ -23,7 +42,10 @@ watch(accountInfo, (newVal) => {
       picture: newVal.picture || '',
       linkedin: newVal.linkedin || '',
       resume: newVal.resume || '',
-      github: newVal.github || ''
+      github: newVal.github || '',
+      class: newVal.class || '',
+      bio: newVal.bio || '',
+      coverImg: newVal.coverImg
     }
   }
 }, { immediate: true });
@@ -40,10 +62,17 @@ async function editAccount(accountData){
 </script>
 
 <template>
-  <form @submit.prevent="editAccount(accountData)" v-if="accountInfo?.email" class="form-control w-75" action="">
-    <label for="name">User Name</label>
-    <input class="form-control w-25" v-model="accountData.name" type="text" name="name" id="name" />
-    
+  <form @submit.prevent="editAccount(accountData)" v-if="accountInfo?.email" class="form-control container w-75" action="">
+    <div class="row">
+      <div class="col-6 col-md-6">
+        <label for="name">User Name</label>
+        <input class="form-control" v-model="accountData.name" type="text" name="name" id="name" :required="true"/>
+      </div>
+      <div class="col-6 col-md-6">
+        <label for="class">Graduation Date</label>
+        <input class="form-control" v-model="accountData.class" type="text" name="class" id="class" />
+      </div>
+    </div>
     <label for="picture">Profile Picture Url</label>
     <input class="form-control" v-model="accountData.picture" type="text" name="picture" id="picture" />
     
@@ -55,6 +84,9 @@ async function editAccount(accountData){
     
     <label for="github">GitHub Url</label>
     <input class="form-control" v-model="accountData.github" type="text" name="github" id="github" />
+
+    <label for="bio">Bio</label>
+    <textarea  @input="resize" rows="1" ref="autoResizeTextarea" v-model="accountData.bio" name="bio" id="bio" class="form-control form-height" maxlength="1000"></textarea>
     
     <div class="text-end">
       <button class="btn btn-success">Apply</button>
@@ -65,5 +97,8 @@ async function editAccount(accountData){
 
 
 <style lang="scss" scoped>
-
+  textarea {
+  overflow: hidden;
+  resize: none; /* Optional: disables manual resizing */
+}
 </style>
