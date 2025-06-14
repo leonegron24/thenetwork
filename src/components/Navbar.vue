@@ -4,9 +4,11 @@ import { loadState, saveState } from '../utils/Store.js';
 import Login from './Login.vue';
 import { computed } from 'vue';
 import { AppState } from '@/AppState.js';
+import { postService } from '@/services/PostService.js';
 
 const theme = ref(loadState('theme') || 'light')
 const account = computed(()=> AppState.account)
+const searchQuery = ref('')
 
 function toggleTheme() {
   theme.value = theme.value == 'light' ? 'dark' : 'light'
@@ -16,6 +18,10 @@ watch(theme, () => {
   document.documentElement.setAttribute('data-bs-theme', theme.value)
   saveState('theme', theme.value)
 }, { immediate: true })
+
+async function searchPosts(){
+  const request = await postService.searchPosts(searchQuery.value)
+}
 
 </script>
 
@@ -38,8 +44,8 @@ watch(theme, () => {
     <!-- collapsing menu -->
     <div class="collapse navbar-collapse d-flex" id="navbar-links">
       <div class="d-flex align-items-center flex-grow-1 justify-content-between">
-        <form class="d-flex ms-auto" role="search">
-          <input class="form-control me-2" type="search" placeholder="Search..." aria-label="Search">
+        <form @submit.prevent="searchPosts" class="d-flex ms-auto" role="search">
+          <input v-model="searchQuery" class="form-control me-2" placeholder="Search..." >
           <button class="btn btn-outline-light" type="submit">Search</button>
         </form>
     </div>

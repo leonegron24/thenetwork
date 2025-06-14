@@ -1,6 +1,7 @@
 <script setup >
 import Example from '@/components/Example.vue';
 import { postService } from '@/services/PostService.js';
+import { addService } from '@/services/AddService.js';
 import { Pop } from '@/utils/Pop.js';
 import { computed } from 'vue';
 import { onMounted } from 'vue';
@@ -8,17 +9,19 @@ import { AppState } from "@/AppState.js"
 import { ref } from 'vue';
 import PostCard from '@/components/PostCard.vue';
 import Profile from '@/components/Profile.vue';
-import Adds from '@/components/Adds.vue';
+import AddCard from '@/components/AddCard.vue';
 
 onMounted(()=>{
   getAllPosts()
+  getAdds()
 })
 
 const posts = computed(()=> AppState.posts)
+const adds = computed(() => AppState.adds)
 
 async function getAllPosts(){
     try {
-      const request = await postService.getAllPosts()
+      await postService.getAllPosts()
     }
     catch (error){
       Pop.error(error);
@@ -27,7 +30,16 @@ async function getAllPosts(){
 
 async function changePage(x){
   try {
-    const request = await postService.changePage(x)
+    await postService.changePage(x)
+  }
+  catch (error){
+    Pop.error(error);
+  }
+}
+
+async function getAdds(){
+  try {
+    await addService.getAdds()
   }
   catch (error){
     Pop.error(error);
@@ -37,7 +49,7 @@ async function changePage(x){
 </script>
 
 <template>
-  <main class="d-flex flex-row justify-content-between w-100">
+  <main class="d-flex pageChange justify-content-between w-100">
     <!-- Profile Section -->
      
      <Profile />
@@ -51,7 +63,13 @@ async function changePage(x){
     </section>
 
     <!-- Ads Section -->
-    <Adds />
+     <section class="hideAddMobile ads-section">
+      <div v-for="add in adds" :key="add.id">
+        <AddCard :add="add" />
+      </div>
+
+     </section>
+
   </main>
 
   <!-- Page -->
@@ -67,6 +85,10 @@ main {
   height: 100vh;
 }
 
+.pageChange{
+  flex-direction: row;
+}
+
 .profile-section {
   width: 25%;
   background-color: #f8f9fa;
@@ -79,10 +101,29 @@ main {
 }
 
 .ads-section {
-  width: 25%;
-  background-color: #f1f3f5;
+  background-color: #edeff0;
 }
 
+@media (max-width: 768px){
+  .hideAddMobile{
+    display: none !important
+  }
+  .posts-section {
+    width: 100%;
+    overflow-y: unset;
+  }
+  .ads-section{
+    width: 100%;
+  }
+  .profile-section{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+  .pageChange{
+    flex-direction: column;
+  }
+}
 
 </style>
 

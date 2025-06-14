@@ -6,19 +6,19 @@ import { Pop } from '@/utils/Pop.js';
 
 import { computed } from 'vue';
 
-
+// Define posts and account
 const props = defineProps({post: Post})
-const emit = defineEmits(['update-likes'])
-
 const account = computed(() => AppState.account)
 
+// Like Post variables
+const emit = defineEmits(['update-likes'])
 const hasLiked = computed(() => {
   return props.post.likeIds.includes(account.value?.id)
 })
 const likesCount = computed(() => props.post.likeIds.length)
 
 
-
+// Functions
 async function deletePost(postId){
     try {
       const request = await postService.deletePost(postId)
@@ -58,7 +58,9 @@ async function likePost(postId) {
             </div>
 
             <!-- Post Menu Button -->
-            <div><i class="selectable btn mdi mdi-menu"></i></div>
+            <div  class="hideMenuMobile">
+                <i class="selectable btn mdi mdi-menu"></i>
+            </div>
         </div>
         <div>{{ post.body }}</div>
     </div>
@@ -97,5 +99,11 @@ async function likePost(postId) {
 
 .fs{
     font-size: x-small;
+}
+
+@media (max-width: 768px ){
+    .hideMenuMobile{
+        display: none;
+    }
 }
 </style>

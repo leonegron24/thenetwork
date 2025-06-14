@@ -5,6 +5,24 @@ import { Pop } from "@/utils/Pop.js"
 
 class PostService{
 
+pageButtonLogic(responseData){
+    let currentPage = AppState.currentPage
+    if(currentPage == responseData.totalPages){
+    AppState.disableButton = true
+}else{
+    AppState.disableButton = false
+}
+}
+
+async searchPosts(query) {
+    console.log('query: ', query)
+    const response = await api.get(`api/posts/?query=${query}`)
+    AppState.posts = response.data.posts.map(post => new Post(post))
+    console.log('search: ', response.data)
+    this.pageButtonLogic(response.data)
+}
+
+
 async likePost(postId) {
     const response = await api.post(`api/posts/${postId}/like`)
     console.log('liking posts: ', response.data.likeIds)
@@ -24,17 +42,20 @@ async changePage(x) {
     const response = await api.get(`api/posts?page=${currentPage}`)
     AppState.posts = response.data.posts.map(post=> new Post(post))
     console.log('page change: ', response.data)
-    
-if(currentPage == response.data.totalPages){
-    AppState.disableButton = true
-}else{
-    AppState.disableButton = false
-}
+    this.pageButtonLogic(response.data)
 }
 
 async deletePost(postId) {
-    const response = await api.delete(`api/posts/${postId}`)
-    console.log('post to Delete: ', response.data)
+    const conf = await Pop.confirm('Are you sure you want to delete?')
+    if (conf){
+        await api.delete(`api/posts/${postId}`)
+        const postToDelete = AppState.posts.findIndex(post => post.id == postId)
+        if (postToDelete != -1)
+            console.log('Deleted Post: ', AppState.posts[postToDelete])
+            AppState.posts.splice(postToDelete, 1)
+    }else{
+        console.log('User canceled delete request')
+    }
 }
 
 async addPost(postData) {
