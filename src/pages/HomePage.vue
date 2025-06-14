@@ -25,6 +25,15 @@ async function getAllPosts(){
     }
 }
 
+async function changePage(x){
+  try {
+    const request = await postService.changePage(x)
+  }
+  catch (error){
+    Pop.error(error);
+  }
+}
+
 </script>
 
 <template>
@@ -32,11 +41,12 @@ async function getAllPosts(){
     <!-- Profile Section -->
      
      <Profile />
+     
 
     <!-- Posts Section -->
     <section class="posts-section p-4">
       <div v-for="post in posts" :key="post.id" class="mb-3">
-        <PostCard :post="post" />
+        <PostCard :post="post"   @update-likes="(likeIds) => post.likeIds = likeIds" />
       </div>
     </section>
 
@@ -45,9 +55,9 @@ async function getAllPosts(){
   </main>
 
   <!-- Page -->
-    <div class="d-flex justify-content-center">
-      <div class="btn selectable mx-5">...Previous </div>
-      <div class="btn selectable mx-5">Next...</div>
+    <div class=" pb-4 d-flex justify-content-center">
+      <button :disabled="AppState.currentPage == AppState.firstPage" @click="changePage(-1)" class="btn selectable mx-5">...Previous </button>
+      <button :disabled="AppState.disableButton"  @click="changePage(1)" class="btn selectable mx-5">Next...</button>
     </div>
 </template>
 

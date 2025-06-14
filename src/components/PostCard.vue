@@ -3,20 +3,49 @@ import { AppState } from '@/AppState.js';
 import { Post } from '@/models/Post.js';
 import { postService } from '@/services/PostService.js';
 import { Pop } from '@/utils/Pop.js';
+
 import { computed } from 'vue';
-import { ref } from 'vue';
+
 
 const props = defineProps({post: Post})
-const likes = ref((props.post.likes).length)
-const profile = computed(()=> AppState.profile)
+const emit = defineEmits(['update-likes'])
 
+const account = computed(() => AppState.account)
+
+const hasLiked = computed(() => {
+  return props.post.likeIds.includes(account.value?.id)
+})
+const likesCount = computed(() => props.post.likeIds.length)
+
+
+
+async function deletePost(postId){
+    try {
+      const request = await postService.deletePost(postId)
+    }
+    catch (error){
+      Pop.error(error);
+    }
+}
+
+async function likePost(postId) {
+  try {
+    const likeIds = await postService.likePost(postId)
+    emit('update-likes', likeIds) // 🔥 tell the parent to update the likes
+  } catch (error) {
+    Pop.error(error)
+  }
+}
 
 </script>
 
 
 <template>
 <div class="card shadow">
-    <div class=" p-1 fs text-secondary">Created: {{ post.createdAtFormatted }}</div>
+    <div class="d-flex justify-content-between p-2 align-items-center">
+        <div class="fs text-secondary">Created: {{ post.createdAtFormatted }}</div>
+        <button v-if="account?.id == post.creator.id" @click="deletePost(post.id)" class="btn btn-danger fs text-secondary">Delete Post</button>
+    </div>
     <div class="p-4">
         <div class="d-flex justify-content-between mb-2">
             <div class="d-flex align-items-center">
@@ -39,8 +68,10 @@ const profile = computed(()=> AppState.profile)
     <div class="d-flex justify-content-end align-items-baseline">
 
         <!-- Like Button -->
-        <i class="selectable btn mdi mdi-heart"></i>
-        <div class="p-2">{{ likes }}</div>
+         <button @click="likePost(post.id)" class="btn p-0">
+            <i :class="hasLiked ? 'mdi mdi-heart' : 'mdi mdi-heart-plus-outline'"></i>
+         </button>
+        <div class="p-2">{{ likesCount }}</div>
     </div>
 </div>
 </template>

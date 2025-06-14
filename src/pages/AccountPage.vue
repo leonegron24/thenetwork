@@ -3,6 +3,8 @@ import { computed } from 'vue';
 import { AppState } from '../AppState.js';
 import AccountForm from '@/components/AccountForm.vue';
 import { AuthService } from '@/services/AuthService.js';
+import { postService } from '@/services/PostService.js';
+import { Pop } from '@/utils/Pop.js';
 
 
 const account = computed(() => AppState.account)
