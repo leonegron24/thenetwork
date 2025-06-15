@@ -1,8 +1,8 @@
 <script setup>
 import { AppState } from '@/AppState.js';
 import { AuthService } from '@/services/AuthService.js';
-import { ref } from 'vue';
 import { computed } from 'vue';
+
 
 const account = computed(()=>AppState.account)
 
@@ -14,15 +14,14 @@ function logout() {
 
 <template>
   <section v-if="account?.email" class="profile-section shadow p-4 profile-height">
-
-        <RouterLink class="text-decoration-none" :to="{ name: 'Account', params:{accountId: account.id} }">
-        <div class="text-center">
-          <div class="position-relative d-inline-block">
-            <img class="selectable profile-picture" :src="account.picture" alt="Profile picture"> 
+    <div class="text-center">
+      <div class="position-relative d-inline-block">
+            <RouterLink class="text-decoration-none" :to="{ name: 'Account', params:{accountId: account.id} }">
+            <img class="profile-picture" :src="account.picture" alt="Profile picture"> 
+          </RouterLink>
             <i class="profile-icon mdi mdi-account-school-outline fs-6"></i>
           </div>
         </div>
-        </RouterLink>
     <div class="text-center pt-4">
       <h2 class="pb-2">{{ account.name }}</h2>
     </div>

@@ -4,16 +4,15 @@ import { loadState, saveState } from '../utils/Store.js';
 import Login from './Login.vue';
 import { computed } from 'vue';
 import { AppState } from '@/AppState.js';
-import { postService } from '@/services/PostService.js';
 import SerachBar from './SerachBar.vue';
+import HomePageButton from './HomePageButton.vue';
+import CreatePostButton from './CreatePostButton.vue';
 
 const theme = ref(loadState('theme') || 'light')
 const account = computed(()=> AppState.account)
-const searchQuery = ref('')
 
-function toggleTheme() {
-  theme.value = theme.value == 'light' ? 'dark' : 'light'
-}
+
+
 
 watch(theme, () => {
   document.documentElement.setAttribute('data-bs-theme', theme.value)
@@ -25,33 +24,20 @@ watch(theme, () => {
 
 <template>
   <nav class="navbar navbar-expand-md bg-codeworks border-bottom border-vue">
-    <div class="container gap-2">
+    <div class="d-flex justify-content-between w-100 p-4 align-items-center">
 
-      <RouterLink :to="{ name: 'Home' }" class="d-flex align-items-center text-light">
-        <img class="navbar-brand  m-0" alt="logo" src="https://media.istockphoto.com/id/1996963853/photo/isolated-shot-of-three-dimensional-blank-jigsaw-puzzle-alphabet-letter-n-on-white-background.webp?a=1&b=1&s=612x612&w=0&k=20&c=0Xv0JIDCtBxndmalkAKHQ3Dhhx-cTLjkx5LbMYvE6Uw=" height="45" />
-        <b class="fs-5">etwork</b>
-      </RouterLink>
-      <RouterLink :to="{name: 'CreatePostPage'}">
-        <div class="text-success mx-4">Create Post</div>
-      </RouterLink>
-      <!-- collapse button -->
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-links"
-      aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="mdi mdi-menu text-light"></span>
-    </button>
+      <HomePageButton />
+      
+      <CreatePostButton />
+
     <!-- collapsing menu -->
     <div class="collapse navbar-collapse d-flex" id="navbar-links">
       <div class="d-flex align-items-center flex-grow-1 justify-content-between">
         <SerachBar />
-    </div>
-
+      </div>
+      
       <!-- LOGIN COMPONENT HERE -->
       <div class="ms-auto">
-        <button class="btn text-light" @click="toggleTheme"
-        :title="`Enable ${theme == 'light' ? 'dark' : 'light'} theme.`">
-        <i v-if="theme == 'dark'" class="mdi mdi-weather-sunny"></i>
-        <i v-if="theme == 'light'" class="mdi mdi-weather-night"></i>
-      </button>
     </div>
     <Login v-if="!account" />
   </div>
@@ -75,5 +61,11 @@ a {
 }
 .navbar-brand{
   height: 3em;
+}
+
+@media (max-width: 768px){
+  .hideLettersMobile{
+    display: none;
+  }
 }
 </style>

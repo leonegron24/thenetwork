@@ -1,12 +1,10 @@
 <script setup >
-import Example from '@/components/Example.vue';
 import { postService } from '@/services/PostService.js';
 import { addService } from '@/services/AddService.js';
 import { Pop } from '@/utils/Pop.js';
 import { computed } from 'vue';
 import { onMounted } from 'vue';
 import { AppState } from "@/AppState.js"
-import { ref } from 'vue';
 import PostCard from '@/components/PostCard.vue';
 import Profile from '@/components/Profile.vue';
 import AddCard from '@/components/AddCard.vue';
@@ -52,7 +50,7 @@ async function getAdds(){
 
 <template>
     <header>
-    <Navbar />
+    <Navbar class="p-0" />
   </header>
   <main class="h-100 d-flex pageChange justify-content-between w-100">
     <!-- Profile Section -->
@@ -108,6 +106,7 @@ main {
 
 .ads-section {
   background-color: #edeff0;
+  max-height: fit-content;
 }
 
 @media (max-width: 768px){

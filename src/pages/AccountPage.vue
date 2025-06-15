@@ -3,8 +3,8 @@ import { computed } from 'vue';
 import { AppState } from '../AppState.js';
 import AccountForm from '@/components/AccountForm.vue';
 import { AuthService } from '@/services/AuthService.js';
-import { postService } from '@/services/PostService.js';
-import { Pop } from '@/utils/Pop.js';
+import HomePageButton from '@/components/HomePageButton.vue';
+import CreatePostButton from '@/components/CreatePostButton.vue';
 
 
 const account = computed(() => AppState.account)
@@ -16,6 +16,12 @@ function logout() {
 </script>
 
 <template>
+    <header>
+        <nav class="navbar navbar-expand-md bg-codeworks border-bottom border-vue">
+          <HomePageButton class="p-4" />
+          <CreatePostButton />
+        </nav>
+  </header>
   <div class="container p-4 about text-start">
     <div class="text-center">
       <img class="rounded" :src="account.picture" alt="" />
