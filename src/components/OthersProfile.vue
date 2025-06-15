@@ -5,6 +5,11 @@ import PostCard from './PostCard.vue';
 
 const account = computed(() => AppState.profile);
 const posts = computed(() => AppState.userPosts);
+
+function removePost(id) {
+  AppState.userPosts = AppState.userPosts.filter(p => p.id != id)
+}
+
 </script>
 
 <template>
@@ -50,7 +55,7 @@ const posts = computed(() => AppState.userPosts);
   <section class="container-fluid pt-4 bg-white">
     <div class="row p-4">
       <div v-for="post in posts" :key="post.id" class="col-6 col-md-6 mb-3">
-        <PostCard :post="post" @update-likes="(likeIds) => post.likeIds = likeIds" />
+        <PostCard :post="post" @update-likes="(likeIds) => post.likeIds = likeIds" @update-deletes="(id) => removePost(id)" />
       </div>
     </div>
   </section>

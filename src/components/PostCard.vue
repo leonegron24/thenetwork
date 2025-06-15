@@ -11,7 +11,7 @@ const props = defineProps({post: Post})
 const account = computed(() => AppState.account)
 
 // Like Post variables
-const emit = defineEmits(['update-likes'])
+const emit = defineEmits(['update-likes', 'update-deletes'])
 const hasLiked = computed(() => {
   return props.post.likeIds.includes(account.value?.id)
 })
@@ -21,7 +21,8 @@ const likesCount = computed(() => props.post.likeIds.length)
 // Functions
 async function deletePost(postId){
     try {
-      const request = await postService.deletePost(postId)
+        await postService.deletePost(postId)
+        emit('update-deletes', postId)
     }
     catch (error){
       Pop.error(error);

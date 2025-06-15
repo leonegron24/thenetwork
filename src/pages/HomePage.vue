@@ -50,7 +50,7 @@ async function getAdds(){
 
 <template>
     <header>
-    <Navbar class="p-0" />
+    <Navbar class="p-2" />
   </header>
   <main class="h-100 d-flex pageChange justify-content-between w-100">
     <!-- Profile Section -->
