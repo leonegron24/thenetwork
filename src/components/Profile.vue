@@ -15,10 +15,10 @@ function logout() {
 <template>
   <section v-if="account?.email" class="profile-section shadow p-4 profile-height">
 
-        <RouterLink class="selectable text-decoration-none" :to="{ name: 'Account', params:{accountId: account.id} }">
+        <RouterLink class="text-decoration-none" :to="{ name: 'Account', params:{accountId: account.id} }">
         <div class="text-center">
           <div class="position-relative d-inline-block">
-            <img class="profile-picture" :src="account.picture" alt="Profile picture"> 
+            <img class="selectable profile-picture" :src="account.picture" alt="Profile picture"> 
             <i class="profile-icon mdi mdi-account-school-outline fs-6"></i>
           </div>
         </div>

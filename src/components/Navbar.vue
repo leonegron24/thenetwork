@@ -5,6 +5,7 @@ import Login from './Login.vue';
 import { computed } from 'vue';
 import { AppState } from '@/AppState.js';
 import { postService } from '@/services/PostService.js';
+import SerachBar from './SerachBar.vue';
 
 const theme = ref(loadState('theme') || 'light')
 const account = computed(()=> AppState.account)
@@ -19,9 +20,6 @@ watch(theme, () => {
   saveState('theme', theme.value)
 }, { immediate: true })
 
-async function searchPosts(){
-  const request = await postService.searchPosts(searchQuery.value)
-}
 
 </script>
 
@@ -44,10 +42,7 @@ async function searchPosts(){
     <!-- collapsing menu -->
     <div class="collapse navbar-collapse d-flex" id="navbar-links">
       <div class="d-flex align-items-center flex-grow-1 justify-content-between">
-        <form @submit.prevent="searchPosts" class="d-flex ms-auto" role="search">
-          <input v-model="searchQuery" class="form-control me-2" placeholder="Search..." >
-          <button class="btn btn-outline-light" type="submit">Search</button>
-        </form>
+        <SerachBar />
     </div>
 
       <!-- LOGIN COMPONENT HERE -->

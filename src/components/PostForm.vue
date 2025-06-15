@@ -5,6 +5,7 @@ import { Pop } from '@/utils/Pop.js';
 import { onMounted } from 'vue';
 import { computed } from 'vue';
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 
 
 const postData = ref({
@@ -18,6 +19,7 @@ onMounted(() => {
 
 const text = ref('')
 const autoResizeTextarea = ref(null)
+const router = useRouter()
 
 function resize() {
   const el = autoResizeTextarea.value
@@ -30,6 +32,8 @@ function resize() {
 async function addPost(){
     try {
       const request = postService.addPost(postData.value)
+      router.push({name: 'Home' })
+
     }
     catch (error){
       Pop.error(error);

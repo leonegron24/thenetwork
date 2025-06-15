@@ -10,6 +10,7 @@ import { ref } from 'vue';
 import PostCard from '@/components/PostCard.vue';
 import Profile from '@/components/Profile.vue';
 import AddCard from '@/components/AddCard.vue';
+import Navbar from '@/components/Navbar.vue';
 
 onMounted(()=>{
   getAllPosts()
@@ -50,6 +51,9 @@ async function getAdds(){
 </script>
 
 <template>
+    <header>
+    <Navbar />
+  </header>
   <main class="h-100 d-flex pageChange justify-content-between w-100">
     <!-- Profile Section -->
      
@@ -58,6 +62,7 @@ async function getAdds(){
 
     <!-- Posts Section -->
     <section class="posts-section p-4">
+      
       <div v-for="post in posts" :key="post.id" class="mb-3">
         <PostCard :post="post"   @update-likes="(likeIds) => post.likeIds = likeIds" />
       </div>

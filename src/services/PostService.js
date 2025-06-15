@@ -46,14 +46,16 @@ async changePage(x) {
 }
 
 async deletePost(postId) {
-    const conf = await Pop.confirm('Are you sure you want to delete?')
+    const conf = await Pop.confirm('Are you sure you want to delete this post?')
     if (conf){
         await api.delete(`api/posts/${postId}`)
         const postToDelete = AppState.posts.findIndex(post => post.id == postId)
         if (postToDelete != -1)
             console.log('Deleted Post: ', AppState.posts[postToDelete])
             AppState.posts.splice(postToDelete, 1)
-    }else{
+        Pop.success('Post Deleted')
+    }
+    else{
         console.log('User canceled delete request')
     }
 }
@@ -72,6 +74,7 @@ async getUserPostsById(creatorId) {
 } 
 
 async getAllPosts() {
+    AppState.posts = []
     const response = await api.get('api/posts')
     console.log('🏣', response.data)
     AppState.posts = response.data.posts.map(post => new Post(post))

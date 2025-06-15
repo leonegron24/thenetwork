@@ -50,7 +50,7 @@ const posts = computed(() => AppState.userPosts);
   <section class="container-fluid pt-4 bg-white">
     <div class="row p-4">
       <div v-for="post in posts" :key="post.id" class="col-6 col-md-6 mb-3">
-        <PostCard :post="post" />
+        <PostCard :post="post" @update-likes="(likeIds) => post.likeIds = likeIds" />
       </div>
     </div>
   </section>
