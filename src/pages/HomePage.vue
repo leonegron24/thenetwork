@@ -31,6 +31,7 @@ async function getAllPosts(){
 async function changePage(x){
   try {
     await postService.changePage(x)
+    window.scrollTo({ top: 0, behavior: 'instant' }) // 👈 Scrolls to top
   }
   catch (error){
     Pop.error(error);
@@ -49,40 +50,34 @@ async function getAdds(){
 </script>
 
 <template>
-  <div class="container-fluid">
-    <div class="row">
-      <main class="d-flex pageChange justify-content-between w-100">
-        <!-- Profile Section -->
-         
-         <Profile />
-         
-    
-        <!-- Posts Section -->
-        <section class="posts-section p-4">
-          <div v-for="post in posts" :key="post.id" class="mb-3">
-            <PostCard :post="post"   @update-likes="(likeIds) => post.likeIds = likeIds" />
-          </div>
-        </section>
-    
-        <!-- Ads Section -->
-         <section class="hideAddMobile ads-section">
-          <div v-for="add in adds" :key="add.id">
-            <AddCard :add="add" />
-          </div>
-    
-         </section>
-    
-      </main>
-    </div>
-  </div>
-  <div class="row p-4">
-    <!-- Page -->
-      <div class="buttonMobile pb-4 d-flex justify-content-center">
-        <button :disabled="AppState.currentPage == AppState.firstPage" @click="changePage(-1)" class="btn selectable mx-5">...Previous </button>
-        <button :disabled="AppState.disableButton"  @click="changePage(1)" class="btn selectable mx-5">Next...</button>
-      </div>
-  </div>
+  <main class="h-100 d-flex pageChange justify-content-between w-100">
+    <!-- Profile Section -->
+     
+     <Profile />
+     
 
+    <!-- Posts Section -->
+    <section class="posts-section p-4">
+      <div v-for="post in posts" :key="post.id" class="mb-3">
+        <PostCard :post="post"   @update-likes="(likeIds) => post.likeIds = likeIds" />
+      </div>
+    </section>
+
+    <!-- Ads Section -->
+     <section class="hideAddMobile ads-section">
+      <div v-for="add in adds" :key="add.id">
+        <AddCard :add="add" />
+      </div>
+
+     </section>
+
+  </main>
+
+  <!-- Page -->
+    <div class=" pb-4 d-flex justify-content-center">
+      <button :disabled="AppState.currentPage == AppState.firstPage" @click="changePage(-1)" class="btn selectable mx-5">...Previous </button>
+      <button :disabled="AppState.disableButton"  @click="changePage(1)" class="btn selectable mx-5">Next...</button>
+    </div>
 </template>
 
 
@@ -111,12 +106,12 @@ main {
 }
 
 @media (max-width: 768px){
-
   .hideAddMobile{
     display: none !important
   }
   .posts-section {
     width: 100%;
+    overflow-y: unset;
   }
   .ads-section{
     width: 100%;
